@@ -16,6 +16,6 @@ const std = @import("std");
 const lib = @import("chip8_zig");
 
 pub fn main() !void {
-    const inst = lib.Instruction.decode_from(0xFFFF);
+    const inst = lib.Instruction.decodeFrom(0xFFFF);
     std.debug.print("{}\n", .{inst});
 }
