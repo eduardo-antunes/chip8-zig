@@ -137,3 +137,57 @@ fn decodeMisc(code: u16) Operation {
         else => .unknown,
     };
 }
+
+const testing = @import("std").testing;
+
+test "decodes 00EE" {
+    const inst = Instruction{
+        .x = 0x0,
+        .y = 0xE,
+        .n = 0xE,
+        .arg = 0xEE,
+        .addr = 0x0EE,
+        .op = .rts,
+    };
+    const actual = Instruction.decodeFrom(0x00EE);
+    try testing.expectEqual(inst, actual);
+}
+
+test "decodes 7XNN" {
+    const inst = Instruction{
+        .x = 0x1,
+        .y = 0x2,
+        .n = 0x3,
+        .arg = 0x23,
+        .addr = 0x123,
+        .op = .add,
+    };
+    const actual = Instruction.decodeFrom(0x7123);
+    try testing.expectEqual(inst, actual);
+}
+
+test "decodes 8XY0" {
+    const inst = Instruction{
+        .x = 0x1,
+        .y = 0x2,
+        .n = 0x0,
+        .arg = 0x20,
+        .addr = 0x120,
+        .op = .move,
+    };
+    const actual = Instruction.decodeFrom(0x8120);
+    try testing.expectEqual(inst, actual);
+}
+
+test "decodes DXYN" {
+    const inst = Instruction{
+        .x = 0x1,
+        .y = 0x2,
+        .n = 0x3,
+        .arg = 0x23,
+        .addr = 0x123,
+        .op = .draw,
+    };
+    const actual = Instruction.decodeFrom(0xD123);
+    try testing.expectEqual(inst, actual);
+}
